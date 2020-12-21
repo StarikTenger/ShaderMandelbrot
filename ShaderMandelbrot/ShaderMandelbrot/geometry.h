@@ -8,14 +8,14 @@
 namespace geom {
 	bool isCross(Vec2 a, Vec2 b, Vec2 c, Vec2 d);
 	Vec2 getCross(Vec2 a, Vec2 b, Vec2 c, Vec2 d);
-	Vec2 direction(double a);
+	Vec2 direction(long double a);
 	Vec2 direction(Vec2  a, Vec2  b);
-	double angle(Vec2 p);
-	double angle(Vec2 a, Vec2 b, Vec2 c);
-	double distance(Vec2  a, Vec2 b);
-	double distance(Vec2  p, Vec2 a, Vec2 b);
-	Vec2 rotate(Vec2 p, double angle);
-	double square(std::vector<Vec2> polygon);
+	long double angle(Vec2 p);
+	long double angle(Vec2 a, Vec2 b, Vec2 c);
+	long double distance(Vec2  a, Vec2 b);
+	long double distance(Vec2  p, Vec2 a, Vec2 b);
+	Vec2 rotate(Vec2 p, long double angle);
+	long double square(std::vector<Vec2> polygon);
 	bool inPolygon(Vec2 point, std::vector<Vec2> polygon);
-	std::vector<double> angleDistribution(double direction, double width, int n);
+	std::vector<long double> angleDistribution(long double direction, long double width, int n);
 }

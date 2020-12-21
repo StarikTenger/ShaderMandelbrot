@@ -32,7 +32,8 @@ void DrawSystem::drawScene() {
 	shader.setUniform("iResolution", sf::Vector2f(w, h));
 	shader.setUniform("scale", (float)cam.scale);
 	shader.setUniform("camPos", sf::Vector2f(cam.pos.x, -cam.pos.y));
-	shader.setUniform("iTime", float(getMilliCount() / 1000.));
+	shader.setUniform("camSubPos", sf::Vector2f((cam.pos.x - (float)cam.pos.x) * 1000000, -(cam.pos.y - (float)cam.pos.y) * 1000000));
+	shader.setUniform("iTime", (float)(getMilliCount() / 1000.));
 
 
 	window->draw(spr, &shader);

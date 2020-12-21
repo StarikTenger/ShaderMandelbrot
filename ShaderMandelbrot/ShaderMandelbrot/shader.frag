@@ -1,6 +1,10 @@
-﻿uniform vec2     iResolution;           // viewport resolution (in pixels)
-uniform float     iTime;           // viewport resolution (in pixels)
+﻿#version 400
+#extension GL_NV_gpu_shader_fp64: enable
+
+uniform vec2     iResolution;           // viewport resolution (in pixels)
+uniform float iTime;           // viewport resolution (in pixels)
 uniform vec2 camPos;
+uniform vec2 camSubPos;
 uniform float scale;
 uniform int mode;
 
@@ -9,32 +13,35 @@ uniform int mode;
 #define MAX_DIST 2
 #define STEPS 100
 
+
 // Math
-vec2 multiply(vec2 a, vec2 b) {
-	return vec2(a.x*b.x - a.y*b.y, a.y*b.x + a.x*b.y);
+f64vec2 multiply(f64vec2 a, f64vec2 b) {
+	return f64vec2(a.x*b.x - a.y*b.y, a.y*b.x + a.x*b.y);
 }
 
-int count(vec2 p) {
-	vec2 z = p;
+int count(f64vec2 p) {
+	f64vec2 z = p;
+	z += f64vec2(0.0f, 0.0f);
 	for(int i = 0; i < STEPS; i++) {
 		
 		z = multiply(z, z);
 		z += p;
-		if(distance(vec2(0, 0), z) > MAX_DIST)
+		if(distance(f64vec2(0.0f, 0.0f), z) > MAX_DIST)
 			return i;
 	}
 	return STEPS;
 }
 
 void main() {
-	vec2 uv = (gl_FragCoord - iResolution/2) / scale + camPos;
+	f64vec2 cam = f64vec2(camPos) + f64vec2(camSubPos) / 1000000.;
+	f64vec2 uv = f64vec2((gl_FragCoord.xy - iResolution/2)) / scale + f64vec2(cam);
 
 	
 
 	int n = count(uv);
-	float p = float(n) / STEPS;
+	double p = double(n) / STEPS;
 	if(n == STEPS)
 		p = 0;
 
-	gl_FragColor = dvec4(p, p, p, 1);
+	gl_FragColor = vec4(p, p, p, 1);
 }
